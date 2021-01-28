@@ -9,8 +9,16 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    var borderColor: UIColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 1)
-    var blueColor: UIColor = UIColor(red: 0/255, green: 148/255, blue: 246/255, alpha: 1)
+    let borderColor: UIColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 1)
+    let blueColor: UIColor = UIColor(red: 0/255, green: 148/255, blue: 246/255, alpha: 1)
+    let lightBlueColor: UIColor = UIColor(red: 127/255, green: 202/255, blue: 251/255, alpha: 1)
+    let backgroundColor: UIColor = UIColor(red: 250/255, green: 250/255, blue: 250/255, alpha: 1)
+    let textColor: UIColor = UIColor(red: 142/255, green: 142/255, blue: 142/255, alpha: 1)
+    let radiusOfCorner: CGFloat = 8
+    let trailingConstraint: CGFloat = -20
+    let leadingConstraint: CGFloat = 20
+    let topAndBottomConstaint: CGFloat = 16
+    let standardHeight: CGFloat = 44
     
     lazy var cancelButton: UIButton = {
         let button = UIButton()
@@ -38,27 +46,13 @@ class ViewController: UIViewController {
     
     lazy var loginTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "Телефон, имя пользователя или эл. адрес"
-        textField.font = UIFont.systemFont(ofSize: 13)
-        textField.borderStyle = .roundedRect
-        textField.layer.borderWidth = 1
-        textField.layer.borderColor = borderColor.cgColor
-        textField.layer.cornerRadius = 8
-        textField.backgroundColor = UIColor(red: 250/255, green: 250/255, blue: 250/255, alpha: 1)
-        textField.textColor = UIColor(red: 142/255, green: 142/255, blue: 142/255, alpha: 1)
+        setupTextField(textField: textField, placeholder: "Телефон, имя пользователя или эл. адрес")
         return textField
     }()
     
     lazy var passwordTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "Пароль"
-        textField.font = UIFont.systemFont(ofSize: 13)
-        textField.borderStyle = .roundedRect
-        textField.layer.borderWidth = 1
-        textField.layer.borderColor = borderColor.cgColor
-        textField.layer.cornerRadius = 8
-        textField.backgroundColor = UIColor(red: 250/255, green: 250/255, blue: 250/255, alpha: 1)
-        textField.textColor = UIColor(red: 142/255, green: 142/255, blue: 142/255, alpha: 1)
+        setupTextField(textField: textField, placeholder: "Пароль")
         textField.isSecureTextEntry = true
         
         let image = UIImage(named: "visibility")
@@ -87,8 +81,8 @@ class ViewController: UIViewController {
     lazy var enterButton: UIButton = {
         let button = UIButton()
         button.setTitle("Войти", for: .normal)
-        button.backgroundColor = UIColor(red: 127/255, green: 202/255, blue: 251/255, alpha: 1)
-        button.layer.cornerRadius = 8
+        button.backgroundColor = lightBlueColor
+        button.layer.cornerRadius = radiusOfCorner
         button.titleLabel?.textColor = .white
         button.addTarget(self, action: #selector(enterButtonPressed), for: .touchUpInside)
         return button
@@ -96,15 +90,20 @@ class ViewController: UIViewController {
     
     lazy var orLabel: UILabel = {
         let label = UILabel()
-        label.text = "или"
+        label.text = " или "
         label.font = UIFont.boldSystemFont(ofSize: 12)
         label.textColor = borderColor
         label.textAlignment = .center
         return label
     }()
     
-    lazy var enterWithFacebookButton: PrimaryView = {
-        let view = PrimaryView()
+    lazy var inlineLabel: InlineTextView = {
+        let label = InlineTextView()
+        return label
+    }()
+    
+    lazy var enterWithFacebookButton: ButtonWithIconView = {
+        let view = ButtonWithIconView()
         let action = UITapGestureRecognizer(target: self, action: #selector(ViewController.enterWithFacebookButtonPressed))
         view.addGestureRecognizer(action)
         view.isUserInteractionEnabled = true
@@ -144,15 +143,10 @@ class ViewController: UIViewController {
     
     
     private func setupViews(){
-        [cancelButton, emptyView, iconImageView, emptyViewTwo, loginTextField, passwordTextField, forgetPasswordButton, enterButton,orLabel, enterWithFacebookButton, horizontalLine, noAccountLabel, registerButton].forEach{
+        [cancelButton, emptyView, iconImageView, emptyViewTwo, loginTextField, passwordTextField, forgetPasswordButton, enterButton, inlineLabel, enterWithFacebookButton, horizontalLine, noAccountLabel, registerButton].forEach{
             self.view.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
-        
-        let trailingConstraint: CGFloat = -20
-        let leadingConstraint: CGFloat = 20
-        let topAndBottomConstaint: CGFloat = 16
-        let standardHeight: CGFloat = 44
         
         cancelButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: topAndBottomConstaint).isActive = true
         cancelButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
@@ -160,8 +154,7 @@ class ViewController: UIViewController {
         cancelButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
         emptyView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        emptyView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: leadingConstraint).isActive = true
-        emptyView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: trailingConstraint).isActive = true
+        setupViewLeftRight(subview: emptyView)
         emptyView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.1).isActive = true
         
         iconImageView.topAnchor.constraint(equalTo: emptyView.bottomAnchor).isActive = true
@@ -170,52 +163,67 @@ class ViewController: UIViewController {
         iconImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
         emptyViewTwo.topAnchor.constraint(equalTo: iconImageView.bottomAnchor).isActive = true
-        emptyViewTwo.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: leadingConstraint).isActive = true
-        emptyViewTwo.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: trailingConstraint).isActive = true
+        setupViewLeftRight(subview: emptyViewTwo)
         emptyViewTwo.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.05).isActive = true
         
         loginTextField.topAnchor.constraint(equalTo: emptyViewTwo.bottomAnchor).isActive = true
-        loginTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: leadingConstraint).isActive = true
-        loginTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: trailingConstraint).isActive = true
-        loginTextField.heightAnchor.constraint(equalToConstant: standardHeight).isActive = true
+        setupViewHeightLeftRight(subview: loginTextField)
         
         passwordTextField.topAnchor.constraint(equalTo: loginTextField.bottomAnchor, constant: 10).isActive = true
-        passwordTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: leadingConstraint).isActive = true
-        passwordTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: trailingConstraint).isActive = true
-        passwordTextField.heightAnchor.constraint(equalToConstant: standardHeight).isActive = true
+        setupViewHeightLeftRight(subview: passwordTextField)
         
         forgetPasswordButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 12).isActive = true
         forgetPasswordButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: trailingConstraint).isActive = true
         
         enterButton.topAnchor.constraint(equalTo: forgetPasswordButton.bottomAnchor, constant: 12).isActive = true
-        enterButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: leadingConstraint).isActive = true
-        enterButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: trailingConstraint).isActive = true
-        enterButton.heightAnchor.constraint(equalToConstant: standardHeight).isActive = true
+        setupViewHeightLeftRight(subview: enterButton)
         
-        orLabel.topAnchor.constraint(equalTo: enterButton.bottomAnchor, constant: 10).isActive = true
-        orLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        inlineLabel.topAnchor.constraint(equalTo: enterButton.bottomAnchor).isActive = true
+        setupViewHeightLeftRight(subview: inlineLabel)
+        inlineLabel.setParameters(title: "или")
         
-        enterWithFacebookButton.topAnchor.constraint(equalTo: enterButton.bottomAnchor, constant: 20).isActive = true
-        enterWithFacebookButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: leadingConstraint).isActive = true
-        enterWithFacebookButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: trailingConstraint).isActive = true
-        enterWithFacebookButton.heightAnchor.constraint(equalToConstant: standardHeight).isActive = true
+        enterWithFacebookButton.topAnchor.constraint(equalTo: inlineLabel.bottomAnchor).isActive = true
+        setupViewHeightLeftRight(subview: enterWithFacebookButton)
         enterWithFacebookButton.setParameters(imageName: "facebook", title: "Войти через Facebook")
         
         horizontalLine.translatesAutoresizingMaskIntoConstraints = false
-        horizontalLine.widthAnchor.constraint(equalToConstant: view.bounds.width - 40).isActive = true
         horizontalLine.heightAnchor.constraint(equalToConstant: 1).isActive = true
-        horizontalLine.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
         horizontalLine.topAnchor.constraint(equalTo: view.bottomAnchor,constant: -50).isActive = true
-        horizontalLine.backgroundColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 1)
+        setupViewLeftRight(subview: horizontalLine)
+        horizontalLine.backgroundColor = borderColor
         
         noAccountLabel.topAnchor.constraint(equalTo: horizontalLine.bottomAnchor, constant: 16).isActive = true
         noAccountLabel.trailingAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        
         
         registerButton.topAnchor.constraint(equalTo: horizontalLine.bottomAnchor, constant: 10).isActive = true
         registerButton.leadingAnchor.constraint(equalTo: view.centerXAnchor,constant: 5).isActive = true
         
     }
+    
+    //MARK: -setup functions-
+    
+    private func setupTextField(textField: UITextField, placeholder: String){
+        textField.placeholder = placeholder
+        textField.font = UIFont.systemFont(ofSize: 13)
+        textField.borderStyle = .roundedRect
+        textField.layer.borderWidth = 1
+        textField.layer.borderColor = borderColor.cgColor
+        textField.layer.cornerRadius = radiusOfCorner
+        textField.backgroundColor = backgroundColor
+        textField.textColor = textColor
+    }
+    
+    private func setupViewHeightLeftRight(subview: UIView){
+        subview.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: leadingConstraint).isActive = true
+        subview.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: trailingConstraint).isActive = true
+        subview.heightAnchor.constraint(equalToConstant: standardHeight).isActive = true
+    }
+    
+    private func setupViewLeftRight(subview: UIView){
+        subview.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: leadingConstraint).isActive = true
+        subview.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: trailingConstraint).isActive = true
+    }
+    
     
     //MARK: -actions-
     

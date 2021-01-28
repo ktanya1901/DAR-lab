@@ -12,7 +12,8 @@
 		7DB7521925C1E876008549F7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DB7521825C1E876008549F7 /* ViewController.swift */; };
 		7DB7521E25C1E87C008549F7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7DB7521D25C1E87C008549F7 /* Assets.xcassets */; };
 		7DB7522125C1E87C008549F7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7DB7521F25C1E87C008549F7 /* LaunchScreen.storyboard */; };
-		7DB7522F25C1FDEB008549F7 /* PrimaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DB7522E25C1FDEB008549F7 /* PrimaryView.swift */; };
+		7DB7522F25C1FDEB008549F7 /* ButtonWithIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DB7522E25C1FDEB008549F7 /* ButtonWithIconView.swift */; };
+		7DB7523325C2847C008549F7 /* InlineTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DB7523225C2847C008549F7 /* InlineTextView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,7 +24,8 @@
 		7DB7521D25C1E87C008549F7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7DB7522025C1E87C008549F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7DB7522225C1E87C008549F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		7DB7522E25C1FDEB008549F7 /* PrimaryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrimaryView.swift; sourceTree = "<group>"; };
+		7DB7522E25C1FDEB008549F7 /* ButtonWithIconView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonWithIconView.swift; sourceTree = "<group>"; };
+		7DB7523225C2847C008549F7 /* InlineTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InlineTextView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,9 +62,10 @@
 				7DB7521625C1E876008549F7 /* SceneDelegate.swift */,
 				7DB7521825C1E876008549F7 /* ViewController.swift */,
 				7DB7521D25C1E87C008549F7 /* Assets.xcassets */,
-				7DB7522E25C1FDEB008549F7 /* PrimaryView.swift */,
+				7DB7522E25C1FDEB008549F7 /* ButtonWithIconView.swift */,
 				7DB7521F25C1E87C008549F7 /* LaunchScreen.storyboard */,
 				7DB7522225C1E87C008549F7 /* Info.plist */,
+				7DB7523225C2847C008549F7 /* InlineTextView.swift */,
 			);
 			path = Instagram_login_page;
 			sourceTree = "<group>";
@@ -137,9 +140,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				7DB7521925C1E876008549F7 /* ViewController.swift in Sources */,
+				7DB7523325C2847C008549F7 /* InlineTextView.swift in Sources */,
 				7DB7521525C1E876008549F7 /* AppDelegate.swift in Sources */,
 				7DB7521725C1E876008549F7 /* SceneDelegate.swift in Sources */,
-				7DB7522F25C1FDEB008549F7 /* PrimaryView.swift in Sources */,
+				7DB7522F25C1FDEB008549F7 /* ButtonWithIconView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
